@@ -194,7 +194,7 @@ Displays list of uploaded games
 
 ## /upload
 
-Basic form that allows to upload .log file. The interesting part of this project starts after form is submitted. Whole data processing takes some time, so with usage of `symfon/messenger, next steps are launched in background.
+Basic form that allows to upload .log file. The interesting part of this project starts after form is submitted. Whole data processing takes some time, so with usage of `symfony/messenger, next steps are launched in background.
 
 
 <div id='/game'></div>
