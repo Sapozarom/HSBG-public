@@ -1,0 +1,128 @@
+<div class='event-text board-event combat-event ' id="{{ round.combat.id}}">
+    <b>COMBAT</b>
+    <div class ='action-target-box '>    
+        <img class="swords-target" src="{{ asset('images/misc/swords.png') }}" alt="Symfony!"/>
+    </div> 
+</div>
+
+<div class="event-board" id="b{{ round.combat.id}}">
+
+    {# OPPONENT BOARD DISPLAY #}
+
+    <div class="row ">
+        <div class="d-flex justify-content-center">
+
+            <h2 class="display-5">COMBAT</h2>
+
+        </div>
+    </div>
+
+    {% if round.combat %}
+    <div class = "row pl-5">
+
+        <!-- OPPONENT HERO -->
+        <div class="col-auto ">          
+            <div class="hero-container hero-margin">
+                {% set oppPlayerId = round.combat.oppPlayer %}
+                {% set oppHero = game.getPlayerById(oppPlayerId).hero %} 
+                {% set oppPower = game.getPlayerById(oppPlayerId).heroPower %} 
+                {% if round.combat.oppHealth <= 0 %}
+
+                    <img class="hero" src="{{ asset('images/heroes/portrait/TB_BaconShop_HERO_KelThuzad.png') }}" alt="Symfony!"/>
+
+                {% else %}
+
+                    <img class="hero" src="{{ asset('images/heroes/portrait/' ~ oppHero ~ '.png') }}" alt="Symfony!"/>
+
+                {% endif %}
+            
+                <img class="health-droplet" src="{{ asset('images/misc/health.png') }}" alt="Symfony!"/>
+                <div class="hero-health-text">{{round.combat.oppHealth}}</div>
+
+                {% if round.combat.winner == -1 %}
+                    <img class="attack-icon" src="{{ asset('images/misc/attack_icon.png') }}" alt="Symfony!"/>
+                    <div class="hero-attack-text">{{round.combat.damage}}</div>
+                    <img class="combat-winner-crown" src="{{ asset('images/misc/crown.png') }}" alt="Symfony!"/>
+                {% endif %}
+
+                <!-- hero power -->
+
+                <div class="hero-power" data-toggle="tooltip" data-html="true" title="<img class='hover-card' src='{{ asset('images/heroPower/cardId/' ~ oppPower ~ '.png') }}' />">
+
+                    <div class="hp-cropper">
+                        <img class="hp-portrait" src="{{ asset('images/cardArt/' ~ oppPower ~ '.png') }}" alt="">
+                    </div>
+                    
+                    <img class="hp-frame" src="{{ asset('images/frames/hero_power.png') }}" alt="Symfony!"/>
+                    
+                    <div class="text hp-cost">  
+                        {# {{game.owner.heroPower.cost}} #}
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
+        <div class="col-auto  mx-auto">
+            {% for card in round.combat.oppBoard.cards %}
+            
+                <!-- MINIONS -->
+                {% include 'game/components/minion.html.twig' with { card : card, boardType : 'BOARD' } %}
+
+            {% endfor %}
+        </div>
+
+    </div>
+    
+{% if round.combat.winner == 0 %}
+    <div class="row">
+        <h2 class="draw">DRAW</h2>
+    </div>
+{% endif %}
+        {# PLAYER BOARD DISPLAY #}
+        <div class = "row">
+            <div class="col-auto ">          
+                <div class="hero-container hero-margin">
+                    <img class="hero" src="{{ asset('images/heroes/portrait/' ~ game.owner.hero ~ '.png') }}" alt="Symfony!"/>
+                
+                    <img class="health-droplet" src="{{ asset('images/misc/health.png') }}" alt="Symfony!"/>
+                    <div class="hero-health-text">{{round.combat.playerHealth}}</div>
+
+                    {% if round.combat.winner == 1 %}
+                    <img class="attack-icon" src="{{ asset('images/misc/attack_icon.png') }}" alt="Symfony!"/>
+                    <div class="hero-attack-text">{{round.combat.damage}}</div>
+                    <img class="combat-winner-crown" src="{{ asset('images/misc/crown.png') }}" alt="Symfony!"/>
+                    {% endif %}
+
+                    <!-- hero power -->
+                    
+                    <div class="hero-power" data-toggle="tooltip" data-html="true" title="<img class='hover-card' src='{{ asset('images/heroPower/cardId/' ~ game.owner.heroPower ~ '.png') }}' />">
+
+                        <div class="hp-cropper">
+                            <img class="hp-portrait" src="{{ asset('images/cardArt/' ~ game.owner.heroPower ~ '.png') }}" alt="">
+
+                        </div>
+                        
+                        <img class="hp-frame" src="{{ asset('images/frames/hero_power.png') }}" alt="Symfony!"/>
+                        
+                        <div class="text hp-cost">  
+                            {# {{game.owner.heroPower.cost}} #}
+                        </div>
+            
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-auto pl-0 pr-0  mx-auto">
+                {% for card in round.combat.playerBoard.cards %}
+                
+                    <!-- MINIONS -->
+                    {% include 'game/components/minion.html.twig' with { card : card, boardType : 'BOARD' } %}
+
+                {% endfor %}
+            </div>
+        </div>
+    
+        {% endif %}
+</div>
+    

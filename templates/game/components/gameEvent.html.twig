@@ -1,0 +1,87 @@
+{% if gameEvent.text == 'UPGRADE' %}
+
+    <div class='event-text ' id="{{ gameEvent.id}}">
+        {% for player in game.players %}
+            {% if player.playerId == gameEvent.gold %}
+            
+            <div class="hero-icon">
+                <div class="hero-icon-image-cropper">
+
+                    {% set image = player.hero  %}
+                    <img class='hero-icon-portrait' src="{{ asset('images/cardArt/' ~ image ~ '.png') }}" alt="Symfony!"/>
+                </div>
+                
+                <img class="hero-icon-border" src="{{ asset('images/frames/lbFrameOpp.png') }}" alt="Symfony!"/>
+            
+            </div>
+                <div class="message-in-bubbles">
+                    <img class="text-bubbles" src="{{ asset('images/misc/speechBubles.png') }}" alt="Symfony!"/>
+                    <img class="tavern-tier-bubbles" src="{{ asset('images/tiers/t' ~ event.tavernTier ~ '.png') }}" alt="Symfony!"/>
+                </div>
+            {% endif %}
+        {% endfor %}
+    </div>
+
+{% elseif gameEvent.text == 'TRIPLE' %}
+     
+     <div class='event-text ' id="{{ gameEvent.id}}">
+        {% for player in game.players %}
+            {% if player.playerId == gameEvent.gold %}
+    
+            <div class="hero-icon">
+                <div class="hero-icon-image-cropper">
+                    {% set image = player.hero  %}
+                    <img class='hero-icon-portrait' src="{{ asset('images/cardArt/' ~ image ~ '.png') }}" alt="Symfony!"/>
+                </div>
+                
+                <img class="hero-icon-border" src="{{ asset('images/frames/lbFrameOpp.png') }}" alt="Symfony!"/>
+            </div>
+                <div class="message-in-bubbles">
+                    <img class="text-bubbles" src="{{ asset('images/misc/speechBubles.png') }}" alt="Symfony!"/>
+                    <img class="tavern-tier-bubbles" src="{{ asset('images/misc/triple.png') }}" alt="Symfony!"/>
+                    <div class="minion-stats triple-number">
+                    {{gameEvent.tavernTier}}
+                    </div>
+                </div>
+            {% endif %}
+        {% endfor %}
+    </div>  
+
+{% elseif gameEvent.text == 'ALLOPP' %}
+    <div class='event-text  board-event ' id="{{ event.id}}">
+        <b>All Opponents ready</b>
+    </div>
+
+    <div class="event-board justify-content-center" id="b{{event.id}}">
+        <div class="row justify-content-center">
+            <div class="col-auto ">
+                {% for player in game.players %}
+                    {% if player.playerId != game.owner.playerId %}
+                        <div class="hero-container all-opponents">
+                            <img class="hero" src="{{ asset('images/heroes/portrait/' ~ player.hero ~ '.png') }}" alt="Symfony!"/>
+                        </div>
+                    {% endif %}    
+                {% endfor %}     
+            </div>                       
+        </div>
+
+        <div class="row justify-content-center">
+            <div class="col-auto ">
+                VS
+            </div>
+        </div>
+
+        <div class="row justify-content-center">
+            <div class="col-auto ">
+                <div class="hero-container all-opponents">
+                    <img class="hero" src="{{ asset('images/heroes/portrait/' ~ game.owner.hero ~ '.png') }}" alt="Symfony!"/>
+                </div>
+            </div>                       
+        </div>  
+    </div>
+
+{% endif %}
+
+
+     
+

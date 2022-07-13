@@ -1,0 +1,44 @@
+<div class="row justify-content-center">
+    <div class="col-auto">
+    {% for place in round.leaderboard %}
+        <div class="hero-icon-lb-panel" data-toggle="tooltip" data-html="true" title="H: {{place.1}}, T: {{place.2}}">
+            
+            <div class="hero-icon-image-cropper">
+                <img class='hero-icon-portrait' src="{{ asset('images/cardArt/' ~ place.0 ~ '.png') }}" alt="Symfony!"/>
+                {% if place.1 <= 0 %}
+                    <div class="dead-hero"></div>
+                {% endif %} 
+            </div>
+
+            {% if place.0 == game.owner.hero %}
+            
+            <img class="hero-icon-border" src="{{ asset('images/frames/lbFramePlayer.png') }}" alt="Symfony!"/>
+
+            {% else %}
+                
+            
+            <img class="hero-icon-border" src="{{ asset('images/frames/lbFrameOpp.png') }}" alt="Symfony!"/>
+            
+            {% endif %}
+
+            {% if place.1 <= 0 %}
+                
+                <img class="dead-hero-skull" src="{{ asset('images/misc/skull.png') }}" alt="Symfony!"/>
+
+            {% endif %}
+
+            {% if place.3 == round.nextOppId %}
+            <img class="lb-swords" src="{{ asset('images/misc/swords.png') }}" alt="Symfony!"/>
+            {% endif %}
+                
+        </div>
+
+    {% endfor %}
+
+    <img class="lb-crown" src="{{ asset('images/misc/crown.png') }}" alt="Symfony!"/>
+
+    </div>
+</div>
+
+
+

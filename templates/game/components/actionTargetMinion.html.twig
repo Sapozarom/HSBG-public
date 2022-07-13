@@ -1,0 +1,105 @@
+
+<div class = "target-minion ">                
+
+    {# TAUNT FRAME #}
+
+    {% if card.taunt %}
+        {% if card.golden %}
+
+            <img class="frame" src="{{ asset('images/frames/taunt_frame_golden.png') }}" alt="Symfony!"/>
+        
+        {% else %}
+            
+            <img class="frame" src="{{ asset('images/frames/taunt_frame.png') }}" alt="Symfony!"/>
+        
+        {% endif %}
+    
+    {% endif %}    
+
+    {# DISPLAY CARD PORTRAIT #}
+
+    <div class="image-cropper">
+        {% if card.baseCard %}
+            <img class="portrait" src="{{ asset('images/cardArt/' ~ card.baseCard.cardId ~ '.png') }}" alt="Symfony!"/>
+        {% else %}
+            <img class="portrait" src="{{ asset('images/cardArt/' ~ card.cardId ~ '.png') }}" alt="Symfony!"/>
+        {% endif %}
+    </div>
+    
+    {# BASIC FRAME #}
+
+    {% if card.golden %}
+
+        <img class="frame" src="{{ asset('images/frames/no_stats_minion_frame_gold.png') }}" alt="Symfony!"/>
+    
+    {% else %}
+            
+            <img class="frame" src="{{ asset('images/frames/no_stats_minion_frame.png') }}" alt="Symfony!"/>
+    
+    {% endif %}
+
+    {# LEGENDARY #}
+
+    {% if card.legendary %}
+
+        {% if card.golden %}
+
+            <img class="frame" src="{{ asset('images/frames/legendary_golden.png') }}" alt="Symfony!"/>
+        
+        {% else %}
+            
+            <img class="frame" src="{{ asset('images/frames/legendary.png') }}" alt="Symfony!"/>
+        
+        {% endif %}
+
+    {% endif %}
+
+    {# REBORN #}
+
+    {% if card.reborn %}
+
+        <img class="frame" src="{{ asset('images/frames/reborn.png') }}" alt="Symfony!"/>
+    
+    {% endif %}
+
+    {# DEATHRATTLE #}
+
+    {% if card.deathrattle %}
+
+        <img class="frame" src="{{ asset('images/frames/deathrattle.png') }}" alt="Symfony!"/>
+    
+    {% endif %}
+
+    {# TRIGGER #}
+
+    {% if card.poisonous %}
+
+        <img class="frame" src="{{ asset('images/frames/trigger.png') }}" alt="Symfony!"/>
+    
+    {% endif %}
+
+    {# POISONOUS #}
+
+    {% if card.poisonous %}
+
+        <img class="frame" src="{{ asset('images/frames/poisonous.png') }}" alt="Symfony!"/>
+    
+    {% endif %}
+
+    {# DIVINE SHIELD #}
+
+    {% if card.divShield %}
+
+        <img class="frame" src="{{ asset('images/frames/divine_shield.png') }}" alt="Symfony!"/>
+    
+    {% endif %}
+
+    {# TAVERN TIERS #}
+
+    {% if boardType == 'SHOP' and card.techLvl %}
+
+        <img class="tavern-tier" src="{{ asset('images/tiers/t' ~ card.techLvl ~ '.png') }}" alt="Symfony!"/>
+    
+    {% endif %}
+
+</div>

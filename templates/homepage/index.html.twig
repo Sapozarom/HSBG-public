@@ -1,0 +1,161 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}HSBG{% endblock %}
+
+{% block body %}
+<div class="container">
+    {# HEADER #}
+    <div class="row mb-3">
+        <div class="d-flex justify-content-center">
+            <h2 class="display-5">Welcome to HSBG!</h2>
+        </div>
+    </div>
+    {# HOMEPAGE TEXT #}
+    <div class="row mb-3 justify-content-center">
+        <div class="col-10">
+                <p> 
+                Here you can upload your game logs from Hearthstone Battlegrounds mode. 
+                This allows you to review you games by yourself or ask someone to do it. You will also get some statistics from your game history.
+                If you want to check this out, go to the
+                <a class="link-dark" href="{{ path('how_it_works') }}">
+                    <b>"How it works"</b>
+                </a>  
+                section, where you can find step-by-step instruction on how to fully take advantage of this website.
+                You can find full documentation at this
+                <a class="link-dark" href="https://github.com/Sapozarom/HSBG/tree/portfolio-v2" target="_blank"> 
+                    <b>link</b>
+                </a>.
+            </p>
+        </div>
+    </div>
+
+    {# PLAYER STATS #}
+    {% if is_granted('IS_AUTHENTICATED_FULLY') %}
+        <div class="row mb-3">
+            <div class="d-flex justify-content-center">
+                <h2 class="display-6">Your Stats</h2>
+            </div>
+        </div>
+        
+        <div class="d-flex justify-content-center">
+            
+            <div class="d-flex p-2 bd-highligh">
+                <ul class="list-group list-group-flush">
+                <li class="list-group-item"><b>Favorite champions:</b></li>
+                {% for champ in userFavChamp %}
+                    <li class="list-group-item d-flex justify-content-between align-items-center">
+                        {{champ.name}} 
+                        <span class="badge badge-primary badge-pill text-secondary">{{champ.games}} games</span>
+                    </li>
+                {% endfor %}
+                </ul>
+            </div>
+
+            <div class="d-flex p-2 bd-highligh">
+                <ul class="list-group list-group-flush">
+                <li class="list-group-item"><b>Best champions:</b></li>
+                {% for champ in userBestChamp %}
+                    <li class="list-group-item d-flex justify-content-between align-items-center">
+                        {{champ.name}} 
+                        <span class="badge badge-primary badge-pill text-secondary">{{champ.avg|number_format(2)}} avg.</span>
+                    </li>
+                {% endfor %}
+                </ul>
+            </div>
+
+            <div class="d-flex p-2 bd-highligh">
+                <ul class="list-group list-group-flush">
+                <li class="list-group-item"><b>Favorite compositions:</b></li>
+                {% for comp in userFavComp %}
+                    <li class="list-group-item d-flex justify-content-between align-items-center">
+                        {{comp.composition}} 
+                        <span class="badge badge-primary badge-pill text-secondary">{{comp.games}} games</span>
+                    </li>
+                {% endfor %}
+                </ul>
+            </div>
+
+            <div class="d-flex p-2 bd-highligh">
+                <ul class="list-group list-group-flush">
+                <li class="list-group-item"><b>Best compositions:</b></li>
+                {% for comp in userBestComp %}
+                    <li class="list-group-item d-flex justify-content-between align-items-center">
+                        {{comp.composition}} 
+                        <span class="badge badge-primary badge-pill text-secondary">{{comp.avg|number_format(2)}} avg.</span>
+                    </li>
+                {% endfor %}
+                </ul>
+            </div>
+
+        </div>
+    {% endif %}
+
+    {# COMMUNITY STATS #}
+    <div class="row mb-3">
+        <div class="d-flex justify-content-center">
+            <h2 class="display-6">Community Stats</h2>
+        </div>
+    </div>
+    
+    <div class="d-flex justify-content-center">
+        
+        <div class="d-flex p-2 bd-highligh">
+            <ul class="list-group list-group-flush">
+            <li class="list-group-item"><b>Favorite champions:</b></li>
+            {% for champ in communityFavChamp %}
+                <li class="list-group-item d-flex justify-content-between align-items-center">
+                    {{champ.name}} 
+                    <span class="badge badge-primary badge-pill text-secondary">{{champ.games}} games</span>
+                </li>
+            {% endfor %}
+            </ul>
+        </div>
+
+        <div class="d-flex p-2 bd-highligh">
+            <ul class="list-group list-group-flush">
+            <li class="list-group-item"><b>Best champions:</b></li>
+            {% for champ in communityBestChamp %}
+                <li class="list-group-item d-flex justify-content-between align-items-center">
+                    {{champ.name}} 
+                    <span class="badge badge-primary badge-pill text-secondary">{{champ.avg|number_format(2)}} avg.</span>
+                </li>
+            {% endfor %}
+            </ul>
+        </div>
+
+        <div class="d-flex p-2 bd-highligh">
+            <ul class="list-group list-group-flush">
+            <li class="list-group-item"><b>Favorite compositions:</b></li>
+            {% for comp in communityFavComp %}
+                <li class="list-group-item d-flex justify-content-between align-items-center">
+                    {{comp.composition}} 
+                    <span class="badge badge-primary badge-pill text-secondary">{{comp.games}} games</span>
+                </li>
+            {% endfor %}
+            </ul>
+        </div>
+
+        <div class="d-flex p-2 bd-highligh">
+            <ul class="list-group list-group-flush">
+            <li class="list-group-item"><b>Best champions:</b></li>
+            {% for comp in communityBestComp %}
+                <li class="list-group-item d-flex justify-content-between align-items-center">
+                    {{comp.composition}} 
+                    <span class="badge badge-primary badge-pill text-secondary">{{comp.avg|number_format(2)}} avg.</span>
+                </li>
+            {% endfor %}
+            </ul>
+        </div>
+
+    </div>
+
+    {# LAST UPLOADED PUBLIC GAMES #}
+    <div class="row mb-3">
+        <div class="d-flex justify-content-center">
+            <h2 class="display-6">Last uploaded public games</h2>
+        </div>
+    </div>
+
+     {% include 'homepage/gameList.html.twig' with { games : lastUploadedPublic } %}
+</div>
+{% endblock %}

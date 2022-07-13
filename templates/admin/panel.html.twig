@@ -1,0 +1,263 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Admin Panel{% endblock %}
+
+{% block body %}
+<div class="container">
+    {# HEADER #}
+
+    <div class="row mb-3">
+        <div class="d-flex justify-content-center">
+            <h2 class="display-5">Admin Panel</h2>
+        </div>
+    </div>
+
+    <div class="row mb-3 justify-content-center">
+    <div class="col-10">
+
+        {# stats #}
+
+        <div class="row border-bottom border-top border-dark ">
+
+            {# {% set params = app.request.query %} #}
+ 
+            <div class="col-sm pl-5 pr-5 ">
+                <button type="button" class="btn " aria-disabled="true"  aria-expanded="false" data-offset="10,20">
+                    Total users:<br> <b>{{totalUsers}}</b>
+                </button>
+            </div>
+            <div class="col-sm pl-5 pr-5 ">
+                <button type="button" class="btn " aria-disabled="true"  aria-expanded="false" data-offset="10,20">
+                    Uploaded games:<br> <b>{{totalGames}}</b>
+                </button>
+            </div>
+            <div class="col-sm pl-5 pr-5 ">
+                <button type="button" class="btn " aria-disabled="true"  aria-expanded="false" data-offset="10,20">
+                    Public:<br> <b>{{public}}</b>
+                </button>
+            </div>
+            <div class="col-sm pl-5 pr-5">
+                <button type="button" class="btn " aria-disabled="true"  aria-expanded="false" data-offset="10,20">
+                    Private:<br> <b>{{private}}</b>
+                </button>
+            </div>
+            <div class="col-sm pl-5 pr-5">
+                <button type="button" class="btn " aria-disabled="true"  aria-expanded="false" data-offset="10,20">
+                HS Client build:<br> <b>{{build}}</b>
+                </button>
+            </div>
+            <div class="col-sm pl-5 pr-5">
+                <button type="button" class="btn " aria-disabled="true"  aria-expanded="false" data-offset="10,20">
+                    Supported build:<br> <b>{{supportedBuild}}</b>
+                </button>
+            </div>
+        </div>
+
+        {# file management #}
+        <h5 class="display-5 smaller-header mt-4"><b>JSON data files</b></h5>
+
+        <div class="accordion mb-5" id="accordionExample">
+            <div class="card">
+                <div class="card-header" id="headingOne">
+                <h2 class="mb-0">
+                    <button class="btn btn-link btn-block text-left" type="button" data-toggle="collapse" data-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+                    Hero Power data files
+                    </button>
+                </h2>
+                </div>
+                <div id="collapseOne" class="collapse" aria-labelledby="headingOne" data-parent="#accordionExample">
+                    <div class="card-body">
+                        <div class="d-flex justify-content-start">
+                            <div class="p-2 bd-highlight">
+                                Creates hero power JSON  data file that is attached to specific Hearthstone game build. JSON file is later used to upload and compare data in database.<br>
+                                <code>! This will overwrite <b>heroPowerData.json</b> file for build <b>{{ build }}</b></code>
+                            </div>
+                            
+                            <div class="m-3 bd-highlight align-self-center">
+                                {% if is_granted('ROLE_ADMIN') %}
+                                    <a href="{{ path('create_hero_power_data_file') }}" class="btn btn-outline-danger " role="button" onclick="return confirm('This will overwrite current file for build {{ build }}')" data-toggle="tooltip" data-html="true" title="asd">CREATE FILE</a> 
+                                {% elseif is_granted('ROLE_TEST') %}
+                                    <a href="#" class="btn btn-outline-danger " role="button" onclick="return confirm('This account is for testing purpose only')" data-toggle="tooltip" data-html="true" title="asd" disabled >CREATE FILE</a> 
+                                {% endif %}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="card">
+                <div class="card-header" id="headingTwo">
+                <h2 class="mb-0">
+                    <button class="btn btn-link btn-block text-left collapsed" type="button" data-toggle="collapse" data-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
+                    Hero data files
+                    </button>
+                </h2>
+                </div>
+                <div id="collapseTwo" class="collapse" aria-labelledby="headingtwo" data-parent="#accordionExample">
+                    <div class="card-body">
+                        <div class="d-flex justify-content-start">
+                            <div class="p-2 bd-highlight">
+                                Creates hero  JSON  data file that is attached to a specific Hearthstone game build. JSON file is later used to upload and compare data in the database.<br>
+                                <code>! This will overwrite <b>heroData.json</b> file for build <b>{{ build }}</b></code>
+                            </div>
+                                <div class="m-3 bd-highlight align-self-center">
+                                {% if is_granted('ROLE_ADMIN') %}
+                                    <a href="{{ path('create_hero_data_file') }}" class="btn btn-outline-danger " role="button" onclick="return confirm('This will overwrite current file for build {{ build }}')" data-toggle="tooltip" data-html="true" title="asd">CREATE FILE</a> 
+                                {% elseif is_granted('ROLE_TEST') %}
+                                    <a href="#" class="btn btn-outline-danger " role="button" onclick="return confirm('This account is for testing purpose only')" data-toggle="tooltip" data-html="true" title="asd" disabled >CREATE FILE</a> 
+                                {% endif %}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            <div class="card">
+                <div class="card-header" id="headingThree">
+                <h2 class="mb-0">
+                    <button class="btn btn-link btn-block text-left collapsed" type="button" data-toggle="collapse" data-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
+                    Card data files
+                    </button>
+                </h2>
+                </div>
+                <div id="collapseThree" class="collapse" aria-labelledby="headingThree" data-parent="#accordionExample">
+                <div class="card-body">
+                        <div class="d-flex justify-content-start">
+                            <div class="p-2 bd-highlight">
+                                Creates minion JSON  data file that is attached to a specific Hearthstone game build. JSON file is later used to upload and compare data in the database.<br>
+                                <code>! This will overwrite <b>cardData.json</b> file for build <b>{{ build }}</b></code>
+                            </div>
+                            
+                            <div class="m-3 bd-highlight align-self-center">
+                                {% if is_granted('ROLE_ADMIN') %}
+                                    <a href="{{ path('create_card_data_file') }}" class="btn btn-outline-danger " role="button" onclick="return confirm('This will overwrite current file for build {{ build }}')" data-toggle="tooltip" data-html="true" title="asd">CREATE FILE</a> 
+                                {% elseif is_granted('ROLE_TEST') %}
+                                    <a href="#" class="btn btn-outline-danger " role="button" onclick="return confirm('This account is for testing purpose only')" data-toggle="tooltip" data-html="true" title="asd" disabled >CREATE FILE</a> 
+                                {% endif %}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="card">
+                <div class="card-header" id="headingFour">
+                <h2 class="mb-0">
+                    <button class="btn btn-link btn-block text-left collapsed" type="button" data-toggle="collapse" data-target="#collapseFour" aria-expanded="false" aria-controls="collapseFour">
+                    All data files
+                    </button>
+                </h2>
+                </div>
+                <div id="collapseFour" class="collapse" aria-labelledby="headingFour" data-parent="#accordionExample">
+                <div class="card-body">
+                        <div class="d-flex justify-content-start">
+                            <div class="p-2 bd-highlight">
+                                Creates all three  (hero, hero power, card) JSON  data files that are attached to a specific Hearthstone game build. JSON file is later used to upload and compare data in the database.<br>
+                                <code>! This will overwrite three (hero, hero power, card) <b>Data.json</b> file for build <b>{{ build }}</b></code>
+                            </div>
+                            
+                            <div class="m-3 bd-highlight align-self-center">
+                                {% if is_granted('ROLE_ADMIN') %}
+                                    <a href="{{ path('create_all_data_file') }}" class="btn btn-outline-danger " role="button" onclick="return confirm('This will overwrite current file for build {{ build }}')" data-toggle="tooltip" data-html="true" title="asd">CREATE FILE</a> 
+                                {% elseif is_granted('ROLE_TEST') %}
+                                    <a href="#" class="btn btn-outline-danger " role="button" onclick="return confirm('This account is for testing purpose only')" data-toggle="tooltip" data-html="true" title="asd" disabled >CREATE FILE</a> 
+                                {% endif %}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                </div>
+            </div>
+        </div>
+        
+        <h5 class="display-5 smaller-header mt-4"><b>Download graphics</b></h5>
+        
+        <div class="accordion mb-5" id="accordionExample">
+            <div class="card">
+                <div class="card-header" id="headingOne">
+                <h2 class="mb-0">
+                    <button class="btn btn-link btn-block text-left" type="button" data-toggle="collapse" data-target="#collapseFive" aria-expanded="true" aria-controls="collapseFive">
+                    Hero Power graphics
+                    </button>
+                </h2>
+                </div>
+                <div id="collapseFive" class="collapse" aria-labelledby="headingOne" data-parent="#accordionExample">
+                    <div class="card-body">
+                        <div class="d-flex justify-content-start">
+                            <div class="p-2 bd-highlight">
+                                It dowloads art and card graphic files for all heroes <br>
+                                <code>
+                                    ! This will take few minutes if you have to download all resourcess for whole database. Please be patient. If script will crash you should <b>restart it</b>.
+                                </code>
+                            </div>
+                            
+                            <div class="m-3 bd-highlight align-self-center">
+                                {% if is_granted('ROLE_ADMIN') %}
+                                    <a href="{{ path('power_to_img') }}" class="btn btn-outline-danger " role="button" onclick="return confirm('This might take few minutes. Would you like to preceed?')" data-toggle="tooltip" data-html="true" title="asd">DOWNLOAD GRAPHICS</a> 
+                                {% elseif is_granted('ROLE_TEST') %}
+                                    <a href="#" class="btn btn-outline-danger " role="button" onclick="return confirm('This account is for testing purpose only')" data-toggle="tooltip" data-html="true" title="asd" disabled >CREATE FILE</a> 
+                                {% endif %}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="card">
+                <div class="card-header" id="headingTwo">
+                <h2 class="mb-0">
+                    <button class="btn btn-link btn-block text-left collapsed" type="button" data-toggle="collapse" data-target="#collapseSix" aria-expanded="false" aria-controls="collapseSix">
+                        Hero graphics
+                    </button>
+                </h2>
+                </div>
+                <div id="collapseSix" class="collapse" aria-labelledby="headingtwo" data-parent="#accordionExample">
+                    <div class="card-body">
+                        <div class="d-flex justify-content-start">
+                            <div class="p-2 bd-highlight">
+                                It dowloads art and card graphic files for all heropowers <br>
+                                <code>
+                                    ! This will take few minutes if you have to download all resourcess for whole database. Please be patient. If script will crash you should <b>restart it</b>.
+                                </code>
+                            </div>
+                            
+                            <div class="m-3 bd-highlight align-self-center">
+                                {% if is_granted('ROLE_ADMIN') %}
+                                    <a href="{{ path('hero_to_img') }}" class="btn btn-outline-danger " role="button" onclick="return confirm('This might take few minutes. Would you like to preceed?')" data-toggle="tooltip" data-html="true" title="asd">DOWNLOAD GRAPHICS</a> 
+                                {% elseif is_granted('ROLE_TEST') %}
+                                    <a href="#" class="btn btn-outline-danger " role="button" onclick="return confirm('This account is for testing purpose only')" data-toggle="tooltip" data-html="true" title="asd" disabled >CREATE FILE</a> 
+                                {% endif %}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            <div class="card">
+                <div class="card-header" id="headingThree">
+                <h2 class="mb-0">
+                    <button class="btn btn-link btn-block text-left collapsed" type="button" data-toggle="collapse" data-target="#collapseSeven" aria-expanded="false" aria-controls="collapseSeven">
+                        Card graphics
+                    </button>
+                </h2>
+                </div>
+                <div id="collapseSeven" class="collapse" aria-labelledby="headingThree" data-parent="#accordionExample">
+                <div class="card-body">
+                        <div class="d-flex justify-content-start">
+                            <div class="p-2 bd-highlight">
+                                It dowloads art and card graphic files of minion and spell cards<br>
+                                <code>
+                                    ! This will take few minutes if you have to download all resourcess for whole database. Please be patient. If script will crash you should <b>restart it</b>.
+                                </code>
+                            </div>
+                            
+                            <div class="m-3 bd-highlight align-self-center">
+                                {% if is_granted('ROLE_ADMIN') %}
+                                    <a href="{{ path('minion_to_img') }}" class="btn btn-outline-danger " role="button" onclick="return confirm('This might take few minutes. Would you like to preceed?')" data-toggle="tooltip" data-html="true" title="asd">DOWNLOAD GRAPHICS</a> 
+                                {% elseif is_granted('ROLE_TEST') %}
+                                    <a href="#" class="btn btn-outline-danger " role="button" onclick="return confirm('This account is for testing purpose only')" data-toggle="tooltip" data-html="true" title="asd" disabled >CREATE FILE</a> 
+                                {% endif %}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div> 
+    </div>    
+</div>
+{% endblock %}

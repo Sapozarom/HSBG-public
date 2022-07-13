@@ -1,0 +1,162 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Game History{% endblock %}
+
+{% block body %}
+<div class="container pt-2">
+    <div class="row mb-3">
+        <div class="d-flex justify-content-center">
+            <h2 class="display-5">Game history</h2>
+        </div>
+    </div>
+
+
+{# SORT #}
+<div class="row border-bottom border-top border-dark">
+
+    {% set params = app.request.query %}
+    <div class="col-sm pl-5 pr-5">
+        <div class="dropdown mr-1">
+            <button type="button" class="btn  dropdown-toggle" id="dropdownMenuOffset" data-toggle="dropdown" aria-expanded="false" data-offset="10,20">
+                Sort by <b>
+                {% if params.get('sortBy') == 'latest' %}
+                    Latest
+                {% elseif params.get('sortBy') == 'oldest' %}
+                    Oldest
+                {% elseif params.get('sortBy') == 'best-finish' %}
+                    Best Finish
+                {% elseif params.get('sortBy') == 'worst-finish' %}
+                    Worst Finish
+                {% elseif params.get('sortBy') == 'composition' %}
+                    Composition   
+                {% elseif params.get('sortBy') == 'hero' %}
+                    Hero 
+                {% endif %}
+                </b>
+            </button>
+            <div class="dropdown-menu" aria-labelledby="dropdownMenuOffset">
+            <a class="dropdown-item" href="{{ path('user_games', {sortBy:'latest', comp: params.get('comp'), limit:params.get('limit'), hero:params.get('hero') }) }}">Latest</a>
+            <a class="dropdown-item" href="{{ path('user_games', {sortBy:'oldest', comp: params.get('comp'), limit:params.get('limit'), hero:params.get('hero') }) }}">Oldest</a>
+            <a class="dropdown-item" href="{{ path('user_games', {sortBy:'best-finish', comp: params.get('comp'), limit:params.get('limit'), hero:params.get('hero') }) }}">Best Finish</a>
+            <a class="dropdown-item" href="{{ path('user_games', {sortBy:'worst-finish', comp: params.get('comp'), limit:params.get('limit'), hero:params.get('hero') }) }}">Worst Finish</a>
+            <a class="dropdown-item" href="{{ path('user_games', {sortBy:'composition', comp: params.get('comp'), limit:params.get('limit'), hero:params.get('hero') }) }}">Composition</a>
+            <a class="dropdown-item" href="{{ path('user_games', {sortBy:'hero', comp: params.get('comp'), limit:params.get('limit'), hero:params.get('hero') }) }}">Hero</a>
+            </div>
+        </div>
+    </div>
+    
+    <div class="col-sm pl-5 pr-5">
+        <div class="dropdown mr-1">
+            <button type="button" class="btn  dropdown-toggle" id="dropdownMenuOffset" data-toggle="dropdown" aria-expanded="false" data-offset="10,20">
+            Pick Hero <b>{{sortHero}}</b>
+            </button>
+            <div class="dropdown-menu" aria-labelledby="dropdownMenuOffset">
+            <a class="dropdown-item" href="{{ path('user_games', { hero: 'All' ,limit:params.get('limit'), sortBy : params.get('sort'), comp: params.get('comp') }) }}">All</a>
+                <div class="dropdown-divider"></div>
+            {% for hero in allPlayedHeroes %}
+            <a class="dropdown-item" href="{{ path('user_games', { hero: hero.id ,limit:params.get('limit'), sortBy : params.get('sort'), comp: params.get('comp') }) }}">{{hero.name}}</a>
+            {% endfor %}
+            </div>
+        </div>
+    </div>
+
+    <div class="col-sm pl-5 pr-5">
+        <div class="dropdown mr-1">
+            <button type="button" class="btn  dropdown-toggle" id="dropdownMenuOffset" data-toggle="dropdown" aria-expanded="false" data-offset="10,20">
+            Pick Composition <b>{{params.get('comp')}}</b>
+            </button>
+            <div class="dropdown-menu" aria-labelledby="dropdownMenuOffset">
+            <a class="dropdown-item" href="{{ path('user_games', {comp: "All",limit:params.get('limit'), sortBy : params.get('sort'), hero:params.get('hero') }) }}">All</a>
+            <div class="dropdown-divider"></div>
+            {% for composition in allComps %}
+            <a class="dropdown-item" href="{{ path('user_games', {comp: composition, limit:params.get('limit'), sortBy : params.get('sort'), hero:params.get('hero') }) }}">{{composition}}</a>    
+            {% endfor %}
+            </div>
+        </div>
+    </div>
+
+    <div class="col-sm pl-5 pr-5">
+        <div class="dropdown mr-1">
+            <button type="button" class="btn dropdown-toggle" id="dropdownMenuOffset" data-toggle="dropdown" aria-expanded="false" data-offset="10,20">
+            Page limit <b> {{params.get('limit')}} </b>
+            </button>
+            <div class="dropdown-menu" aria-labelledby="dropdownMenuOffset">
+            <a class="dropdown-item" href="{{ path('user_games', {limit:10, sortBy : params.get('sort'), comp: params.get('comp'), hero:params.get('hero') }) }}">10</a>
+            <a class="dropdown-item" href="{{ path('user_games', {limit:25, sortBy : params.get('sort'), comp: params.get('comp'), hero:params.get('hero') }) }}">25</a>
+            <a class="dropdown-item" href="{{ path('user_games', {limit:50, sortBy : params.get('sort'), comp: params.get('comp'), hero:params.get('hero') }) }}">50</a>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-sm pl-5 pr-5 ">
+        <button type="button" class="btn " aria-disabled="true"  aria-expanded="false" data-offset="10,20">
+            Games played: <b>{{uploadedGames}}</b>
+        </button>
+    </div>
+    <div class="col-sm pl-5 pr-5">
+        <button type="button" class="btn " aria-disabled="true"  aria-expanded="false" data-offset="10,20">
+            Avg. placement: <b>{{avgPlacement|number_format(2)}}</b>
+        </button>
+    </div>
+</div>
+
+{% for game in pagination %}
+{# {{ dump(game.owner.hero ) }} #}
+    <div class="row border-top border-bottom align-items-center">
+        <div class="col-auto pl-0 pr-0">
+            <img class="small-hero" src="{{ asset('images/heroes/portrait/' ~ game.owner.hero ~ '.png') }}" alt="Symfony!"/>
+        </div>
+        <div class="col-sm  pl-5 pr-5">
+            {% if game.public != true %}
+                
+                <a href="{{ path('change_public_status', {game: game.id}) }}" class="btn btn-outline-danger btn-sm" role="button" onclick="return confirm('This game will be visible to other users. Are you sure?')" data-toggle="tooltip" data-html="true" title="asd">Priv</a>     
+            
+            {% else %}
+
+                <a href="{{ path('change_public_status', {game: game.id}) }}" class="btn btn-success btn-sm" role="button" onclick="return confirm('This game will now be only available for you. Do you want to proceed?')">Pub</a>   
+            
+            {% endif %}
+            
+            ID <b>{{game.id}}</b>
+        </div>
+
+        <div class="col-sm pl-5 pr-5">
+            Rounds <b>{{game.rounds|length}}</b>
+        </div>
+
+        <div class="col-sm pl-5 pr-5">
+            Place: <b>{{game.placement}}</b>
+        </div>
+
+        <div class="col-auto pl-5 pr-5 ">
+        {% if game.rounds.last.combat.playerBoard.cards %}
+        
+            {# ----------------final board ----------------- #}
+
+            <div class="col-auto m-0 p-0">
+              
+                {% for card in game.rounds.last.combat.playerBoard.cards %}
+                    <!-- MINIONS -->
+                    {% include 'game/components/minionSmall.html.twig' with { card : card, boardType : 'BOARD' } %}
+
+                {% endfor %}
+            </div>
+
+            {# -------------------------------------------- #}
+        <p class="text-center m-0 p-0">Comp: <b>{{game.composition}}</b></p>
+        {% endif %}
+        
+        </div>
+
+        <div class="col-sm ">
+            <a class="text-dark text-bold" href="{{ path('show_game', {game: game.id, round: 1}) }}">SHOW</a>
+        </div>
+    </div>
+{% endfor %}
+
+    <div class="navigation">
+        {{ knp_pagination_render(pagination) }}
+    </div>
+
+</div>
+{% endblock %}

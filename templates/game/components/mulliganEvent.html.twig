@@ -1,0 +1,86 @@
+
+
+<div class='event-text board-event mulligan-event ' id="{{ gameEvent.id}}">
+    <b>MULLIGAN</b> &nbsp {{gameEvent.text}}
+</div>
+
+<div class="event-board" id="b{{gameEvent.id}}">
+
+    <div class = " row height-20 text-center align-items-center">
+        {% if event.hand.cards.first.baseCard != null %}
+            <h5>Picked {{event.hand.cards.first.baseCard.name}}</h5>
+        {% endif %}
+    </div>
+
+    {% if event.hand.cards.first.baseCard != null %}
+    {# MULLIGAN OPTIONS DISPLAY #}
+        <div class = "height-40 d-flex align-items-center ">
+        
+            {% if event.innkeeperBoard %}
+
+                <div class="col-auto pl-0 pr-0 pt-4 mx-auto">
+                
+                    {% if gameEvent.text == 'HERO' %}
+                    <div class = " row height-20 text-center align-items-center">
+                        <p>Tribes:
+                            {% for tribe in game.tribes %}  
+                                    <b>{{tribe}},</b>
+                            {% endfor %}
+                        </p>
+                    </div>                    
+                    {% endif %}
+
+                    {% for card in event.innkeeperBoard.cards %}
+                    
+                        {% if gameEvent.text == 'HERO' %}   
+                             
+                            {% if card.baseCard.cardId == event.hand.cards.first.baseCard.cardId %}
+                                <div class="hero-container">
+                                    <img class="hero mulligan-pick" src="{{ asset('images/heroes/portrait/' ~ card.baseCard.cardId ~ '.png') }}" alt="Symfony!"/>
+                                </div>
+                            {% else %}
+                                <div class="hero-container">                                   
+                                    <img class="hero" src="{{ asset('images/heroes/portrait/' ~ card.baseCard.cardId ~ '.png') }}" alt="Symfony!"/>     
+                                </div>
+                            {% endif %}
+
+                        {% elseif gameEvent.text == 'MINION'%}
+
+                            {% if card.baseCard.cardId == event.hand.cards.first.baseCard.cardId  %}
+                            <div class="hero-container">
+                                <img class="hero mulligan-pick" src="{{ asset('images/cards/minions/cardId/' ~ card.baseCard.cardId ~ '.png') }}" alt="Symfony!"/>
+                            </div>
+                            {% else %}
+                                
+                            <div class="hero-container">
+                                <img class="hero" src="{{ asset('images/cards/minions/cardId/' ~ card.baseCard.cardId ~ '.png') }}" alt="Symfony!"/>
+                            </div>
+                            {% endif %}
+
+                        {% elseif gameEvent.text == 'SPELL'%}
+
+                            {% if card.baseCard.cardId == event.hand.cards.first.baseCard.cardId %}
+                            <div class="hero-container">
+                                <img class="hero mulligan-pick" src="{{ asset('images/cards/spell/' ~ card.baseCard.cardId ~ '.png') }}" alt="Symfony!"/>
+                            </div>
+                            {% else %}
+                            <div class="hero-container">
+                                <img class="hero" src="{{ asset('images/cards/spell/' ~ card.baseCard.cardId ~ '.png') }}" alt="Symfony!"/>
+                            </div>
+                            {% endif %}
+
+                        {% endif %}
+
+                    {% endfor %}
+                </div>
+            {% endif %}
+        </div>
+    {% endif %}
+</div>
+
+
+
+
+    
+
+    

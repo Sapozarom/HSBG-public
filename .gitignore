@@ -1,0 +1,24 @@
+
+###> symfony/framework-bundle ###
+/.env
+/.env.local
+/.env.test
+/.env.local.php
+/.env.*.local
+/.env
+/TODO.md
+/config/secrets/prod/prod.decrypt.private.php
+/public/bundles/
+/public/games/
+/public/appLogs/
+/public/dataFiles/images/
+/migrations/
+/var/
+/vendor/
+###< symfony/framework-bundle ###
+
+###> symfony/phpunit-bridge ###
+.phpunit
+.phpunit.result.cache
+/phpunit.xml
+###< symfony/phpunit-bridge ###

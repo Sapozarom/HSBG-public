@@ -1,0 +1,107 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Game{% endblock %}
+
+{% block body %}
+
+	<div class="container p-0 pb-5">
+        
+    {# ROUND HEADER #}
+    
+    <table class="full-width m-0 pb-5">
+        <tbody class=" full-height">
+            <tr>
+                {# EVENT HEADER #}
+                <td class = "event-header">
+                    <div class="d-flex  justify-content-between align-items-center">
+
+                        <div class="mr-auto p-2">                   
+                                <img class='event-arrow previous-event' src="{{ asset('images/misc/arrow_prev.png') }}" alt="Symfony!"/>
+                        </div>
+                        
+                        <div class="p-2">
+                            <h4 class="display-6 text-center ">
+                                Events
+                            </h4>
+                        </div>
+
+                        <div class="ml-auto p-2">
+                                <img class='event-arrow next-event' src="{{ asset('images/misc/arrow_next.png') }}" alt="Symfony!"/>
+                        </div>
+
+                    </div>
+                </td>
+                
+                {# ROUND HEADER #}
+                <td class = "leaderboard-header">
+                    <div class="d-flex justify-content-center align-items-center">
+                        <div class="p-2">
+                        {% if round.roundNumber > 1 %}
+                            <a class="" href="{{ path('show_game', {game: game.id, round: round.roundNumber - 1 }) }}">
+                                <img class='round-arrow' src="{{ asset('images/misc/arrow_prev.png') }}" alt="Symfony!"/>
+                            </a>  
+                        {% endif %}
+                        </div>
+                        
+                        <div class="p-2">
+                            <h1 class="display-6 text-center ">
+                            Round {{ round.roundNumber }} of {{game.countedRounds}}
+                            </h1>
+                        </div>
+
+                        <div class="p-2">
+                        {% if round.roundNumber < game.countedRounds %}
+                            <a class="" href="{{ path('show_game', {game: game.id, round: round.roundNumber + 1 }) }}">
+                                <img class='round-arrow' src="{{ asset('images/misc/arrow_next.png') }}" alt="Symfony!"/>
+                            </a>  
+                        {% endif %}
+                        </div>
+                    </div>
+                </td>
+            </tr>
+
+            <tr>
+            {# EVENT LIST #}
+                <td class='event-panel'>
+                    {% for gameEvent in round.events %}
+                    
+                        {% if gameEvent.type == 'BOARD' %}
+
+                            {% include 'game/components/boardEvent.html.twig' with { event : gameEvent } %}
+
+                        {% elseif gameEvent.type == 'MULLIGAN' %}    
+                            
+                            {% include 'game/components/mulliganEvent.html.twig' with { event : gameEvent } %}
+
+                        {% elseif gameEvent.type == 'GAME' %}
+                            
+                            {% include 'game/components/gameEvent.html.twig' with { event : gameEvent,  game : game } %}
+
+                        {% endif %}   
+
+                    {% endfor %}
+
+                        {# COMBAT #}
+                        {% include 'game/components/combatEvent.html.twig' with {  game : game, round : round  } %} 
+                </td>
+                {# LEADERBOARD #}
+                <td class="lb-panel">
+                    {% include 'game/components/lbPanel.html.twig' with { game : game, round : round } %}
+                </td>
+
+                {# DYNAMIC BOARD DISPLAY #}
+                <td class="board-panel">
+                    
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    </div>
+    
+
+{% endblock %}
+
+{% block javascripts %}
+
+
+{% endblock %}

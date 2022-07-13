@@ -1,0 +1,230 @@
+<div class='event-text board-event'>
+
+	{% if gameEvent.text == 'BOUGHT' 
+        or gameEvent.text == 'PLAYED' 
+        or gameEvent.text == 'SOLD' 
+        or gameEvent.text == 'MOVED' 
+    %}
+
+		{% if gameEvent.target.baseCard %}
+			<b>
+				{{gameEvent.text}}
+				&nbsp
+			</b>
+			{{gameEvent.target.baseCard.name}}
+		{% else %}
+
+			<b>
+				{{gameEvent.text}}
+				&nbsp
+			</b>
+			Card
+
+		{% endif %}
+
+		<div class='action-target-box '>
+			{% if gameEvent.target %}
+				{% include 'game/components/actionTargetMinion.html.twig' with { card : gameEvent.target, boardType : 'BOARD' } %}
+			{% endif %}
+		</div>
+
+	{% elseif gameEvent.text == 'USED' %}
+
+		{% if gameEvent.target.baseCard %}
+			<b>
+				{{gameEvent.text}}
+				&nbsp
+			</b>
+			{{gameEvent.target.baseCard.name}}
+		{% else %}
+
+			<b>
+				{{gameEvent.text}}
+				&nbsp
+			</b>
+			Card
+
+		{% endif %}
+
+		<div class='action-target-box '>
+			{% if gameEvent.target %}
+				{% include 'game/components/actionTargetPower.html.twig' with { card : gameEvent.target, boardType : 'BOARD' } %}
+			{% endif %}
+		</div>
+
+	{% elseif gameEvent.text == 'REFRESH' %}
+
+		<b>
+			{{gameEvent.text}}ED &nbsp
+		</b>
+		Shop
+		<div class='action-target-box '>
+			<img class="refresh-target" src="{{ asset('images/misc/refresh.png') }}" alt="Symfony!"/>
+		</div>
+
+	{% elseif gameEvent.text == 'TAVERN' %}
+
+		<b>
+			UPGRADED &nbsp
+		</b>
+		Tavern
+		<div class='action-target-box '>
+			<img class="refresh-target" src="{{ asset('images/misc/tavern_upgrade_button.png') }}" alt="Symfony!"/>
+		</div>
+
+	{% elseif gameEvent.text == 'FREEZE' %}
+
+		<b>
+			FREEZED &nbsp
+		</b>
+		Shop
+		<div class='action-target-box '>
+			<img class="refresh-target" src="{{ asset('images/misc/freeze.png') }}" alt="Symfony!"/>
+		</div>
+
+	{% else %}
+
+		<b>{{ gameEvent.text}}
+		</b>
+		<div class='action-target-box '>
+			{% if gameEvent.target %}
+				{% include 'game/components/actionTargetMinion.html.twig' with { card : gameEvent.target, boardType : 'BOARD' } %}
+			{% endif %}
+		</div>
+
+	{% endif %}
+
+</div>
+
+<div
+	class="event-board" id="b{{ gameEvent.id}}">
+
+	{# SHOP BOARD DISPLAY #}
+	<div
+		class="row">
+
+		{# <br><b>SHOP:</b> #}
+		<div class="col-auto pl-0 pr-0 ">
+			<div class="hero-left-panel">
+
+				<img class="left-panel-button tavern-upgrade" src="{{ asset('images/misc/tavern_upgrade_button.png') }}" alt="Symfony!"/>
+
+				<img class="left-panel-button refresh" src="{{ asset('images/tiers/t' ~ event.tavernTier ~ '.png') }}" alt="Symfony!"/>
+
+				<div class="text upgrade-cost">
+					{{event.upgradeCost}}
+				</div>
+			</div>
+		</div>
+
+		<div class="col-auto pl-0 pr-0">
+			<img class="hero" src="{{ asset('images/heroes/BOB.png') }}" alt="Symfony!"/>
+		</div>
+
+		{% if event.innkeeperBoard %}
+
+			<div class="col-auto pl-0 pr-0 pt-4 mx-auto">
+				{% for card in event.innkeeperBoard.cards %}
+					<!-- MINIONS -->
+					{% include 'game/components/minion.html.twig' with { card : card, boardType : 'SHOP' } %}
+
+				{% endfor %}
+			</div>
+		{% endif %}
+	</div>
+
+	{# PLAYER BOARD DISPLAY #}
+	<div
+		class="row ">
+		{# <br><b>PLAYER BOARD:</b> #}
+
+		<div class="col-auto pl-0 pr-0 ">
+			<div class="hero-left-panel">
+
+				<img class="left-panel-button tavern-upgrade" src="{{ asset('images/misc/refresh.png') }}" alt="Symfony!"/>
+
+				<img class="left-panel-button coin" src="{{ asset('images/misc/coin.png') }}" alt="Symfony!"/>
+
+				<div class="text player-gold">
+					{{event.gold}}
+				</div>
+
+				<div class="text upgrade-cost">
+					{{event.rerollCost}}
+				</div>
+			</div>
+		</div>
+
+		<div class="col-auto pl-0 pr-0">
+			<div class="hero-container">
+				<img class="hero" src="{{ asset('images/heroes/portrait/' ~ game.owner.hero ~ '.png') }}" alt="Symfony!"/>
+
+				<img class="health-droplet" src="{{ asset('images/misc/health.png') }}" alt="Symfony!"/>
+				<div class="hero-health-text">{{event.playerHealth}}</div>
+
+				<!-- hero power -->
+
+				<div
+					class="hero-power" data-toggle="tooltip" data-html="true" title="<img class='hover-card' src='{{ asset('images/heroPower/cardId/' ~ game.owner.heroPower ~ '.png') }}' />">
+					{# <div class = "board-minion red-tooltip" data-toggle="tooltip" data-html="true" title="<img class='hover-card' src='{{ asset('images/cards/minions/cardId/' ~ card.baseCard.cardId ~ '.png') }}' />"> #}
+
+					{% if event.powerUsed %}
+
+						<img class="hp-frame" src="{{ asset('images/frames/hero_power_hiden.png') }}" alt="Symfony!"/>
+
+					{% else %}
+						<div class="hp-cropper">
+							<img class="hp-portrait" src="{{ asset('images/cardArt/' ~ game.owner.heroPower ~ '.png') }}" alt="">
+
+						</div>
+
+						<img class="hp-frame" src="{{ asset('images/frames/hero_power.png') }}" alt="Symfony!"/>
+
+						<div
+							class="text hp-cost">{# {{game.owner.heroPower.cost}} #}
+						</div>
+
+					{% endif %}
+
+				</div>
+			</div>
+		</div>
+
+		{% if event.playerBoard %}
+
+			<div class="col-auto pl-0 pr-0  mx-auto">
+
+				{% for card in event.playerBoard.cards %}
+					<!-- MINIONS -->
+					{% include 'game/components/minion.html.twig' with { card : card, boardType : 'BOARD' } %}
+
+				{% endfor %}
+			</div>
+		{% endif %}
+
+	</div>
+
+
+	{# HAND DISPLAY #}
+	<div class="row">
+		<div class="col-auto pl-0 pr-0 ">
+			<img class="cardback" src="{{ asset('images/heroes/cardback.png') }}" alt=""/>
+		</div>
+
+		{% if event.hand %}
+
+			{% for card in event.hand.cards %}
+
+				<div
+					class="col-auto pl-0 pr-0 ">
+					<!-- MINIONS -->
+					{% include 'game/components/minion.html.twig' with { card : card, boardType : 'HAND' } %}
+
+				</div>
+
+			{% endfor %}
+
+		{% endif %}
+
+	</div>
+</div>

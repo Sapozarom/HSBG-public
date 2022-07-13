@@ -1,0 +1,33 @@
+{# templates/bundles/TwigBundle/Exception/error404.html.twig #}
+{% extends 'base.html.twig' %}
+
+{% block body %}
+<div class="container">
+
+    <div class="row ">
+        <div class="d-flex justify-content-center">
+            <h2 class="display-1 mt-5">404!</h2><br>
+        </div>
+    </div>
+    <div class="row mb-5">
+        <div class="d-flex justify-content-center">
+            <h5 class="display-5 smaller-header">Page not found</h5>
+        </div>
+    </div>
+    <div class="row mt-2">
+        <div class="d-flex justify-content-center">
+            <img src='{{ asset('images/misc/bgLogo.png') }}' class="d-block w-50" alt="...">
+        </div>
+    </div>
+    <div class="row mb-5 ">
+        <div class="d-flex justify-content-center mb-5">
+            <p class="mb-5">
+            The requested page couldn't be located. Checkout for any URL
+            misspelling or <a href="{{ path('homepage') }}">return to the homepage</a>.
+        </p>
+        </div>
+    </div> 
+
+</div>
+    
+{% endblock %}

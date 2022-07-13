@@ -1,0 +1,12 @@
+framework:
+    messenger:
+        transports:
+            async: 
+                dsn: "%env(MESSENGER_TRANSPORT_DSN)%"
+                options:
+                    auto_setup: false
+                    use_notify: true
+                    check_delayed_interval: 60000
+        routing:
+            'App\Message\ParseGameMessage': async
+            'App\Message\DivideFileMessage': async

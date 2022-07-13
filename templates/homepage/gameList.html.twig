@@ -1,0 +1,36 @@
+
+{% for game in games %}
+    <div class="row border-top border-bottom align-items-center">
+        <div class="col-auto pl-0 pr-0">
+            <img class="very-small-hero" src="{{ asset('images/heroes/portrait/' ~ game.owner.hero ~ '.png') }}" alt="Symfony!"/>
+        </div>
+        <div class="col-sm  pl-5 pr-5">            
+            ID <b>{{game.id}}</b>
+        </div>
+        <div class="col-sm pl-5 pr-5">
+            Rounds <b>{{game.rounds|length}}</b>
+        </div>
+        <div class="col-sm pl-5 pr-5">
+            Place: <b>{{game.placement}}</b>
+        </div>
+        <div class="col-sm pl-5 pr-5">
+            Comp: <b>{{game.composition}}</b>
+        </div>
+
+        <div class="col-auto pl-5 pr-5 ">
+        {% if game.rounds.last.combat.playerBoard.cards %}
+            {# final board ----------------- #}
+            <div class="col-auto m-0 p-0">
+                {% for card in game.rounds.last.combat.playerBoard.cards %}
+                    <!-- MINIONS -->
+                    {% include 'game/components/minionVerySmall.html.twig' with { card : card, boardType : 'BOARD' } %}
+                {% endfor %}
+            </div>
+            {# ---------------------------- #}
+        {% endif %}
+        </div>
+        <div class="col-sm ">
+            <a class="text-dark text-bold" href="{{ path('show_game', {game: game.id, round: 1}) }}">SHOW</a>
+        </div>
+    </div>
+{% endfor %}
