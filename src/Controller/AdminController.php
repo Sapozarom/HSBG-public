@@ -31,21 +31,24 @@ class AdminController extends AbstractController
      * @Route("/admin-panel", name="admin_panel")
      */
     public function adminPanel(UserRepository $userRepo, GameRepository $gameRepo): Response
-    {
-        $numberOfAllUsers = $userRepo->countAllUsers();
-        $gameStats = $gameRepo->createStatsForAdmin();
+    {        
+        $allUsers = $userRepo->findAll();
+        $ammountOfAllUsers = count($allUsers);
+
+        $gameStats = $gameRepo->getAllGamesStats();
 
         $build = $this->getParameter('app.current_build');
         $suppBuild = $this->getParameter('app.supported_build');
 
+        // $this->denyAccessUnlessGranted('ROLE_ADMIN');
+
         return $this->render('admin/panel.html.twig', [
             'build' => $build,
             'supportedBuild' => $suppBuild,
-            'totalUsers' => $numberOfAllUsers,
-            'totalGames' => $gameStats['games'],
-            'public' => $gameStats['public'],
-            'private' => $gameStats['private'],
-
+            'totalUsers' => $ammountOfAllUsers,
+            'totalGames' => $gameStats[0],
+            'public' => $gameStats[1],
+            'private' => $gameStats[2],
         ]);
     }
 
