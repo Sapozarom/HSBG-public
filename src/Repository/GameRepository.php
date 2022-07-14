@@ -367,27 +367,6 @@ class GameRepository extends ServiceEntityRepository
      *
      * @return Int[]
      */
-    public function getAllGamesStats()
-    {
-        $allGames = $this->findAll();
-
-
-
-        $allCounted = count($allGames);
-        $public = 0;
-        $private = 0;
-
-        foreach ($allGames as $game) {
-            if ($game->getPublic()) {
-                $public++;
-            } else {
-                $private++;
-            }
-        }
-
-        return [$allCounted, $public, $private];
-    }
-
     public function createStatsForAdmin(){
 
         $allStats = array();
@@ -412,24 +391,5 @@ class GameRepository extends ServiceEntityRepository
         $allStats['private'] = $allGames['games'] - $allPublic['public'];
 
         return $allStats;
-        // dd($allPublic);
-
-        // $qb1 = $this->createQueryBuilder('g');
-        
-        // if ($user != null) {
-        //     $qb1
-        //     ->andWhere('g.user = :val')
-        //     ->setParameter('val', $user);
-        // }
-
-        // $comps = $qb1
-        //     ->select('count(g) as games, g.composition, ( sum(g.placement) / count(g)  ) as avg')
-        //     ->groupBy('g.composition')
-        //     ->orderBy('avg', 'asc')
-        //     ->setMaxResults(3)
-        //     ->getQuery()
-        //     ->getResult();
-            
-        // return $comps;
     }
 }
