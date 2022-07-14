@@ -17,7 +17,7 @@
     2. [/user-games](#/user-games)
     3. [/upload](#/upload)
     3. [//game/{game}/{round}](#/game)
-
+7. [Changelog](#changelog)
 
 
 # Introduction 
@@ -206,6 +206,14 @@ Takes data from DB and renders game view round by round
 
 
 
+<div id='changelog'></div>
+
+# Changelog
+
+## v.1.01 - current
+
+- doctrine/dbal downgraded to version 2.13.2 
+- lighter Admin Panel - rewritten stat queries
 
 
 

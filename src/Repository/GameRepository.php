@@ -371,6 +371,8 @@ class GameRepository extends ServiceEntityRepository
     {
         $allGames = $this->findAll();
 
+
+
         $allCounted = count($allGames);
         $public = 0;
         $private = 0;
@@ -384,5 +386,50 @@ class GameRepository extends ServiceEntityRepository
         }
 
         return [$allCounted, $public, $private];
+    }
+
+    public function createStatsForAdmin(){
+
+        $allStats = array();
+
+        $qb1 = $this->createQueryBuilder('g');
+        $allGames = $qb1
+        ->select('count(g) as games')
+        ->getQuery()
+        ->getSingleResult();
+        
+        $allStats['games'] = $allGames['games'];
+
+        $qb2 = $this->createQueryBuilder('g');
+        $allPublic = $qb2
+        ->select('count(g) as public')
+        ->andWhere('g.public = true')
+        ->getQuery()
+        ->getSingleResult();
+
+        $allStats['public'] = $allPublic['public'];
+
+        $allStats['private'] = $allGames['games'] - $allPublic['public'];
+
+        return $allStats;
+        // dd($allPublic);
+
+        // $qb1 = $this->createQueryBuilder('g');
+        
+        // if ($user != null) {
+        //     $qb1
+        //     ->andWhere('g.user = :val')
+        //     ->setParameter('val', $user);
+        // }
+
+        // $comps = $qb1
+        //     ->select('count(g) as games, g.composition, ( sum(g.placement) / count(g)  ) as avg')
+        //     ->groupBy('g.composition')
+        //     ->orderBy('avg', 'asc')
+        //     ->setMaxResults(3)
+        //     ->getQuery()
+        //     ->getResult();
+            
+        // return $comps;
     }
 }
