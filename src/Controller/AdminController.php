@@ -45,7 +45,6 @@ class AdminController extends AbstractController
             'totalGames' => $gameStats['games'],
             'public' => $gameStats['public'],
             'private' => $gameStats['private'],
-
         ]);
     }
 
