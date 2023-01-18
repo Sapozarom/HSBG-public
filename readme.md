@@ -18,12 +18,14 @@
     3. [/upload](#/upload)
     3. [//game/{game}/{round}](#/game)
 7. [Changelog](#changelog)
-
+7. [Summary](#summary)
 
 # Introduction 
 <div id='introduction'></div>
 
 HSBG is an app that uploads log files from the Blizzard card game Hearthstone, precisely Battlegrounds mode which is Blizzard's interpretation of battle chess genre. After log file is ready on the server, it is parsed into PHP variables, which then are interpreted into a full game that contains every move of the player displayed step by step in twig templates.
+
+_SHORT VIDEO COMMENTARY on the WEBSITE:_ [https://www.youtube.com/watch?v=3bTyWtesYI0](https://www.youtube.com/watch?v=3bTyWtesYI0)   
 
 You can test the website under this link: [http://hsbg.sasartele.pl/](http://hsbg.sasartele.pl/)
 
@@ -210,14 +212,25 @@ Takes data from DB and renders game view round by round
 
 # Changelog
 
-## v.1.01 - current
+## v.1.02 - current
+
+- added video presentation of project
+
+## v.1.01 
 
 - doctrine/dbal downgraded to version 2.13.2 
 - lighter Admin Panel - rewritten stat queries
 
 
 
+<div id='summary'></div>
 
+# Summary
 
+One more time I Invite you to test the app under this link: [http://hsbg.sasartele.pl/](http://hsbg.sasartele.pl/). In my portfolio there is also one more big project. It is oriented more into JS and frontend with PHP API. Links can be found below
 
+ - Harmon docs - [github.com/Sapozarom/Harmon-prod](https://github.com/Sapozarom/HSBG-public)
+ - Harmon video commentary - [youtube.com/watch?v=me0LZkTauHs](https://www.youtube.com/watch?v=me0LZkTauHs)
+ - HSBG www - [harmon.sasartele.pl]( http://hsbg.sasartele.pl/)
 
+If you like my projects and think that they are worth some attention, here you can find my [LinkedIn profile]( https://www.linkedin.com/in/seb-koch/)
