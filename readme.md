@@ -229,7 +229,7 @@ Takes data from DB and renders game view round by round
 
 One more time I Invite you to test the app under this link: [http://hsbg.sasartele.pl/](http://hsbg.sasartele.pl/). In my portfolio there is also one more big project. It is oriented more into JS and frontend with PHP API. Links can be found below
 
- - Harmon docs - [github.com/Sapozarom/Harmon-prod](https://github.com/Sapozarom/HSBG-public)
+ - Harmon docs - [github.com/Sapozarom/Harmon-prod](https://github.com/Sapozarom/Harmon-prod)
  - Harmon video commentary - [youtube.com/watch?v=me0LZkTauHs](https://www.youtube.com/watch?v=me0LZkTauHs)
  - HSBG www - [harmon.sasartele.pl]( http://hsbg.sasartele.pl/)
 
