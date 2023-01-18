@@ -231,6 +231,6 @@ One more time I Invite you to test the app under this link: [http://hsbg.sasarte
 
  - Harmon docs - [github.com/Sapozarom/Harmon-prod](https://github.com/Sapozarom/Harmon-prod)
  - Harmon video commentary - [youtube.com/watch?v=me0LZkTauHs](https://www.youtube.com/watch?v=me0LZkTauHs)
- - HSBG www - [harmon.sasartele.pl]( http://hsbg.sasartele.pl/)
+ - Harmon www - [harmon.sasartele.pl]( http://harmon.sasartele.pl/)
 
 If you like my projects and think that they are worth some attention, here you can find my [LinkedIn profile]( https://www.linkedin.com/in/seb-koch/)
